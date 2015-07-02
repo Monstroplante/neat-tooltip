@@ -7,3 +7,4 @@ Features:
 - Responsive (never get out of the screen)
 - Ok on touch screens
 - Fully customizable design with very simple CSS or SCSS
+- Full CSS, no image

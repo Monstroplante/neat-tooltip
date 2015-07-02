@@ -1,0 +1,14 @@
+{
+  "name": "amd_demo_placement",
+  "version": "1.0.0",
+  "author": "",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-livereload": "^3.8.0",
+    "gulp-prettify": "^0.3.0",
+    "gulp-sass": "^2.0.3",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-typescript": "^2.7.7",
+    "gulp-watch": "^4.2.4"
+  }
+}
