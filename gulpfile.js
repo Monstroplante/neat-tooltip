@@ -5,16 +5,26 @@ var
     livereload = require('gulp-livereload'),
     sourcemaps = require('gulp-sourcemaps'),
     ts = require('gulp-typescript'),
-    prettify = require('gulp-prettify')
+    uglify = require('gulp-uglify'),
+    rename = require("gulp-rename")
 ;
 
 gulp.task('typescript', function() {
-    return gulp.src('typescript/**/*.ts')
+    gulp.src('typescript/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(ts({declarationFiles:false})).js
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist'))
     ;
+
+    gulp.start('uglify');
+});
+
+gulp.task('uglify', function() {
+    return gulp.src('dist/neat-tooltip.js')
+        .pipe(uglify())
+        .pipe(rename('neat-tooltip.min.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('sass', function () {
