@@ -11,7 +11,7 @@ var
 gulp.task('typescript', function() {
     return gulp.src('typescript/**/*.ts')
         .pipe(sourcemaps.init())
-        .pipe(ts({})).js
+        .pipe(ts({declarationFiles:false})).js
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist'))
     ;
