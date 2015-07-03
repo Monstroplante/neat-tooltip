@@ -1,4 +1,4 @@
-@import "neat-tooltip";
+@import "common";
 
 .tooltip-dark{
   @include neat-tooltip(#555, 8px, 300px);

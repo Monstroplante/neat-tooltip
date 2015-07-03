@@ -1,31 +1,38 @@
 .tooltip-frame {
   position: absolute;
-  z-index: 100; }
-
-.has-tooltip {
-  position: relative; }
-
-.tooltip-frame {
+  z-index: 100;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
   background: #FFF;
   max-width: 300px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  padding: 10px 20px; }
-  .tooltip-frame .tip {
-    border-style: solid;
-    position: absolute;
-    margin-left: -8px;
-    border-width: 9px; }
-  .tooltip-frame.tooltip-bottom {
-    margin-top: 8px; }
-    .tooltip-frame.tooltip-bottom .tip {
-      border-color: transparent transparent #FFF transparent;
-      border-width: 0 9px 9px 9px;
-      top: -8px; }
-  .tooltip-frame.tooltip-top {
-    margin-top: -8px; }
-    .tooltip-frame.tooltip-top .tip {
-      border-color: #FFF transparent transparent transparent;
-      border-width: 9px 9px 0 9px;
-      bottom: -8px; }
+}
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkM6L1VzZXJzL1RvbS9Hb29nbGUgRHJpdmUvcHJvamVjdHMvbmVhdC10b29sdGlwL3Nhc3MvbmVhdC10b29sdGlwLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsY0FBYyxDQUFBO0VBQ1osUUFBUSxFQUFFLFFBQVM7RUFDbkIsT0FBTyxFQUFFLEdBQUksR0FGQTs7QUFzQ2YsWUFBWSxDQUFBO0VBQ1YsUUFBUSxFQUFFLFFBQVMsR0FEUjs7QUFNYixjQUFjLENBQUE7RUF0Q1YsVUFBVSxFQXVDVSxJQUFJO0VBckN4QixTQUFTLEVBcUNzQixLQUFLO0VBcENwQyxVQUFVLEVBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQU0sa0JBQUk7RUFDOUIsT0FBTyxFQUFFLElBQUksQ0FBQyxJQUFJLEdBa0NQO0VBaENYLGNBQWMsQ0FBQyxJQUFJLENBQWY7SUFDRixZQUFZLEVBQUUsS0FBTTtJQUNwQixRQUFRLEVBQUUsUUFBUztJQUNuQixXQUFXLEVBOEJhLElBQUc7SUE3QjNCLFlBQVksRUFBRSxHQUFTLEdBSnBCO0VBT0osY0FBYyxlQUFlLENBQWQ7SUFDZCxVQUFVLEVBeUJjLEdBQUcsR0ExQlo7SUFFZixjQUFjLGVBQWUsQ0FBQyxJQUFJLENBQTlCO01BQ0YsWUFBWSxFQUFFLFdBQVcsQ0FBQyxXQUFXLENBdUJyQixJQUFJLENBdkI0QixXQUFXO01BQzNELFlBQVksRUFBRSxDQUFDLENBQUMsR0FBUyxDQUFHLEdBQVMsQ0FBRyxHQUFTO01BQ2pELEdBQUcsRUFxQm1CLElBQUcsR0F4QnRCO0VBT04sY0FBYyxZQUFZLENBQWQ7SUFDWCxVQUFVLEVBZ0JjLElBQUcsR0FqQmY7SUFFWixjQUFjLFlBQVksQ0FBQyxJQUFJLENBQTNCO01BQ0YsWUFBWSxFQWNJLElBQUksQ0FkSSxXQUFXLENBQUMsV0FBVyxDQUFDLFdBQVc7TUFDM0QsWUFBWSxFQUFFLEdBQVMsQ0FBRyxHQUFTLENBQUcsQ0FBQyxDQUFDLEdBQVM7TUFDakQsTUFBTSxFQVlnQixJQUFHLEdBZnRCIiwiZmlsZSI6Im5lYXQtdG9vbHRpcC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudG9vbHRpcC1mcmFtZXtcclxuICBwb3NpdGlvbjogYWJzb2x1dGU7XHJcbiAgei1pbmRleDogMTAwO1xyXG59XHJcblxyXG5AbWl4aW4gbmVhdC10b29sdGlwKCRiZy1jb2xvciwgJHRpcC1zaXplLCAkbWF4LXdpZHRoKXtcclxuICAgIGJhY2tncm91bmQ6ICRiZy1jb2xvcjtcclxuXHJcbiAgICBtYXgtd2lkdGg6ICRtYXgtd2lkdGg7XHJcbiAgICBib3gtc2hhZG93OiAwIDAgMjBweCByZ2JhKCMwMDAsIDAuMyk7XHJcbiAgICBwYWRkaW5nOiAxMHB4IDIwcHg7XHJcblxyXG4gICAgLnRpcHtcclxuICAgICAgYm9yZGVyLXN0eWxlOiBzb2xpZDtcclxuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gICAgICBtYXJnaW4tbGVmdDogLSR0aXAtc2l6ZTtcclxuICAgICAgYm9yZGVyLXdpZHRoOiAkdGlwLXNpemUrMTtcclxuICAgIH1cclxuXHJcbiAgICAmLnRvb2x0aXAtYm90dG9te1xyXG4gICAgICBtYXJnaW4tdG9wOiAkdGlwLXNpemU7XHJcbiAgICAgIC50aXB7XHJcbiAgICAgICAgYm9yZGVyLWNvbG9yOiB0cmFuc3BhcmVudCB0cmFuc3BhcmVudCAkYmctY29sb3IgdHJhbnNwYXJlbnQ7XHJcbiAgICAgICAgYm9yZGVyLXdpZHRoOiAwICR0aXAtc2l6ZSsxICR0aXAtc2l6ZSsxICR0aXAtc2l6ZSsxO1xyXG4gICAgICAgIHRvcDogLSR0aXAtc2l6ZTtcclxuICAgICAgfVxyXG4gICAgfVxyXG5cclxuICAgICYudG9vbHRpcC10b3B7XHJcbiAgICAgIG1hcmdpbi10b3A6IC0kdGlwLXNpemU7XHJcbiAgICAgIC50aXB7XHJcbiAgICAgICAgYm9yZGVyLWNvbG9yOiAkYmctY29sb3IgdHJhbnNwYXJlbnQgdHJhbnNwYXJlbnQgdHJhbnNwYXJlbnQ7XHJcbiAgICAgICAgYm9yZGVyLXdpZHRoOiAkdGlwLXNpemUrMSAkdGlwLXNpemUrMSAwICR0aXAtc2l6ZSsxO1xyXG4gICAgICAgIGJvdHRvbTogLSR0aXAtc2l6ZTtcclxuICAgICAgfVxyXG4gICAgfVxyXG59XHJcblxyXG4uaGFzLXRvb2x0aXB7XHJcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG59XHJcblxyXG5cclxuLy9EZWZhdWx0IHN0eWxlXHJcbi50b29sdGlwLWZyYW1le1xyXG4gIEBpbmNsdWRlIG5lYXQtdG9vbHRpcCgjRkZGLCA4cHgsIDMwMHB4KTtcclxufVxyXG4iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */
+.tooltip-frame .tip {
+  border-style: solid;
+  position: absolute;
+}
+
+.tooltip-frame .tip {
+  margin-left: -8px;
+  border-width: 9px;
+}
+
+.tooltip-frame.tooltip-bottom {
+  margin-top: 8px;
+}
+
+.tooltip-frame.tooltip-bottom .tip {
+  border-color: transparent transparent #FFF transparent;
+  border-width: 0 9px 9px 9px;
+  top: -8px;
+}
+
+.tooltip-frame.tooltip-top {
+  margin-top: -8px;
+}
+
+.tooltip-frame.tooltip-top .tip {
+  border-color: #FFF transparent transparent transparent;
+  border-width: 9px 9px 0 9px;
+  bottom: -8px;
+}

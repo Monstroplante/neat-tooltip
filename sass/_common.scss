@@ -1,0 +1,28 @@
+//Easy customization
+@mixin neat-tooltip($bg-color, $tip-size, $max-width){
+  background: $bg-color;
+  max-width: $max-width;
+
+  .tip{
+    margin-left: -$tip-size;
+    border-width: $tip-size+1;
+  }
+
+  &.tooltip-bottom{
+    margin-top: $tip-size;
+    .tip{
+      border-color: transparent transparent $bg-color transparent;
+      border-width: 0 $tip-size+1 $tip-size+1 $tip-size+1;
+      top: -$tip-size;
+    }
+  }
+
+  &.tooltip-top{
+    margin-top: -$tip-size;
+    .tip{
+      border-color: $bg-color transparent transparent transparent;
+      border-width: $tip-size+1 $tip-size+1 0 $tip-size+1;
+      bottom: -$tip-size;
+    }
+  }
+}
