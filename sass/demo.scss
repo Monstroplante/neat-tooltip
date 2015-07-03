@@ -4,3 +4,8 @@
   @include neat-tooltip(#555, 8px, 300px);
   color: #fff;
 }
+
+.tooltip-pill{
+  @extend .tooltip-dark;
+  border-radius: 9999px;
+}
