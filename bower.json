@@ -1,0 +1,21 @@
+{
+  "name": "neat-tooltip",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Monstroplante/neat-tooltip",
+  "authors": [
+    "Tom Esterez"
+  ],
+  "description": "Simple lightweight and responsive jQuery tooltip plugin",
+  "main": [
+    "dist/neat-tooltip.min.js",
+    "dist/neat-tooltip.css"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
