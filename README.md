@@ -6,6 +6,6 @@ Features:
 - Very simple
 - Responsive (never get out of the screen)
 - Ok on touch screens
-- Fully customizable design with very simple CSS or SCSS
+- Create custom styles with a SASS mixin and custom CSS
 - No image
 - Tooltip content can be any html content
