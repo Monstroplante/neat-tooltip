@@ -1,7 +1,5 @@
 {
-  "name": "amd_demo_placement",
-  "version": "1.0.0",
-  "author": "",
+  "name": "neat-tooltip",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-livereload": "^3.8.0",

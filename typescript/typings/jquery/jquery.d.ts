@@ -164,7 +164,7 @@ interface JQueryAjaxSettings {
  */
 interface JQueryXHR extends XMLHttpRequest, JQueryPromise<any> {
     /**
-     * The .overrideMimeType() method may be used in the beforeSend() callback function, for example, to modify the response content-type header. As of jQuery 1.5.1, the jqXHR object also contains the overrideMimeType() method (it was available in jQuery 1.4.x, as well, but was temporarily removed in jQuery 1.5). 
+     * The .overrideMimeType() method may be used in the beforeSend() callback function, for example, to modify the response source-type header. As of jQuery 1.5.1, the jqXHR object also contains the overrideMimeType() method (it was available in jQuery 1.4.x, as well, but was temporarily removed in jQuery 1.5).
      */
     overrideMimeType(mimeType: string): any;
     /**
@@ -1258,19 +1258,19 @@ interface JQuery {
     /**
      * Set the HTML contents of each element in the set of matched elements.
      *
-     * @param htmlString A string of HTML to set as the content of each matched element.
+     * @param htmlString A string of HTML to set as the source of each matched element.
      */
     html(htmlString: string): JQuery;
     /**
      * Set the HTML contents of each element in the set of matched elements.
      *
-     * @param func A function returning the HTML content to set. Receives the index position of the element in the set and the old HTML value as arguments. jQuery empties the element before calling the function; use the oldhtml argument to reference the previous content. Within the function, this refers to the current element in the set.
+     * @param func A function returning the HTML source to set. Receives the index position of the element in the set and the old HTML value as arguments. jQuery empties the element before calling the function; use the oldhtml argument to reference the previous source. Within the function, this refers to the current element in the set.
      */
     html(func: (index: number, oldhtml: string) => string): JQuery;
     /**
      * Set the HTML contents of each element in the set of matched elements.
      *
-     * @param func A function returning the HTML content to set. Receives the index position of the element in the set and the old HTML value as arguments. jQuery empties the element before calling the function; use the oldhtml argument to reference the previous content. Within the function, this refers to the current element in the set.
+     * @param func A function returning the HTML source to set. Receives the index position of the element in the set and the old HTML value as arguments. jQuery empties the element before calling the function; use the oldhtml argument to reference the previous source. Within the function, this refers to the current element in the set.
      */
 
     /**
@@ -2561,28 +2561,28 @@ interface JQuery {
     pushStack(elements: any[], name: string, arguments: any[]): JQuery;
 
     /**
-     * Insert content, specified by the parameter, after each element in the set of matched elements.
+     * Insert source, specified by the parameter, after each element in the set of matched elements.
      * 
      * param content1 HTML string, DOM element, array of elements, or jQuery object to insert after each element in the set of matched elements.
      * param content2 One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert after each element in the set of matched elements.
      */
     after(content1: JQuery|any[]|Element|Text|string, ...content2: any[]): JQuery;
     /**
-     * Insert content, specified by the parameter, after each element in the set of matched elements.
+     * Insert source, specified by the parameter, after each element in the set of matched elements.
      * 
      * param func A function that returns an HTML string, DOM element(s), or jQuery object to insert after each element in the set of matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
      */
     after(func: (index: number, html: string) => string|Element|JQuery): JQuery;
 
     /**
-     * Insert content, specified by the parameter, to the end of each element in the set of matched elements.
+     * Insert source, specified by the parameter, to the end of each element in the set of matched elements.
      * 
      * param content1 DOM element, array of elements, HTML string, or jQuery object to insert at the end of each element in the set of matched elements.
      * param content2 One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert at the end of each element in the set of matched elements.
      */
     append(content1: JQuery|any[]|Element|Text|string, ...content2: any[]): JQuery;
     /**
-     * Insert content, specified by the parameter, to the end of each element in the set of matched elements.
+     * Insert source, specified by the parameter, to the end of each element in the set of matched elements.
      * 
      * param func A function that returns an HTML string, DOM element(s), or jQuery object to insert at the end of each element in the set of matched elements. Receives the index position of the element in the set and the old HTML value of the element as arguments. Within the function, this refers to the current element in the set.
      */
@@ -2596,14 +2596,14 @@ interface JQuery {
     appendTo(target: JQuery|any[]|Element|string): JQuery;
 
     /**
-     * Insert content, specified by the parameter, before each element in the set of matched elements.
+     * Insert source, specified by the parameter, before each element in the set of matched elements.
      * 
      * param content1 HTML string, DOM element, array of elements, or jQuery object to insert before each element in the set of matched elements.
      * param content2 One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert before each element in the set of matched elements.
      */
     before(content1: JQuery|any[]|Element|Text|string, ...content2: any[]): JQuery;
     /**
-     * Insert content, specified by the parameter, before each element in the set of matched elements.
+     * Insert source, specified by the parameter, before each element in the set of matched elements.
      * 
      * param func A function that returns an HTML string, DOM element(s), or jQuery object to insert before each element in the set of matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
      */
@@ -2644,14 +2644,14 @@ interface JQuery {
     insertBefore(target: JQuery|any[]|Element|Text|string): JQuery;
 
     /**
-     * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
+     * Insert source, specified by the parameter, to the beginning of each element in the set of matched elements.
      * 
      * param content1 DOM element, array of elements, HTML string, or jQuery object to insert at the beginning of each element in the set of matched elements.
      * param content2 One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert at the beginning of each element in the set of matched elements.
      */
     prepend(content1: JQuery|any[]|Element|Text|string, ...content2: any[]): JQuery;
     /**
-     * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
+     * Insert source, specified by the parameter, to the beginning of each element in the set of matched elements.
      * 
      * param func A function that returns an HTML string, DOM element(s), or jQuery object to insert at the beginning of each element in the set of matched elements. Receives the index position of the element in the set and the old HTML value of the element as arguments. Within the function, this refers to the current element in the set.
      */
@@ -2679,15 +2679,15 @@ interface JQuery {
     replaceAll(target: JQuery|any[]|Element|string): JQuery;
 
     /**
-     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+     * Replace each element in the set of matched elements with the provided new source and return the set of elements that was removed.
      * 
-     * param newContent The content to insert. May be an HTML string, DOM element, array of DOM elements, or jQuery object.
+     * param newContent The source to insert. May be an HTML string, DOM element, array of DOM elements, or jQuery object.
      */
     replaceWith(newContent: JQuery|any[]|Element|Text|string): JQuery;
     /**
-     * Replace each element in the set of matched elements with the provided new content and return the set of elements that was removed.
+     * Replace each element in the set of matched elements with the provided new source and return the set of elements that was removed.
      * 
-     * param func A function that returns content with which to replace the set of matched elements.
+     * param func A function that returns source with which to replace the set of matched elements.
      */
     replaceWith(func: () => Element|JQuery): JQuery;
 
@@ -2696,15 +2696,15 @@ interface JQuery {
      */
     text(): string;
     /**
-     * Set the content of each element in the set of matched elements to the specified text.
+     * Set the source of each element in the set of matched elements to the specified text.
      * 
-     * @param text The text to set as the content of each matched element. When Number or Boolean is supplied, it will be converted to a String representation.
+     * @param text The text to set as the source of each matched element. When Number or Boolean is supplied, it will be converted to a String representation.
      */
     text(text: string|number|boolean): JQuery;
     /**
-     * Set the content of each element in the set of matched elements to the specified text.
+     * Set the source of each element in the set of matched elements to the specified text.
      * 
-     * @param func A function returning the text content to set. Receives the index position of the element in the set and the old text value as arguments.
+     * @param func A function returning the text source to set. Receives the index position of the element in the set and the old text value as arguments.
      */
     text(func: (index: number, text: string) => string): JQuery;
 
@@ -2727,7 +2727,7 @@ interface JQuery {
     /**
      * Wrap an HTML structure around each element in the set of matched elements.
      * 
-     * @param func A callback function returning the HTML content or jQuery object to wrap around the matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
+     * @param func A callback function returning the HTML source or jQuery object to wrap around the matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
      */
     wrap(func: (index: number) => string|JQuery): JQuery;
 
@@ -2740,15 +2740,15 @@ interface JQuery {
     wrapAll(func: (index: number) => string): JQuery;
 
     /**
-     * Wrap an HTML structure around the content of each element in the set of matched elements.
+     * Wrap an HTML structure around the source of each element in the set of matched elements.
      * 
-     * @param wrappingElement An HTML snippet, selector expression, jQuery object, or DOM element specifying the structure to wrap around the content of the matched elements.
+     * @param wrappingElement An HTML snippet, selector expression, jQuery object, or DOM element specifying the structure to wrap around the source of the matched elements.
      */
     wrapInner(wrappingElement: JQuery|Element|string): JQuery;
     /**
-     * Wrap an HTML structure around the content of each element in the set of matched elements.
+     * Wrap an HTML structure around the source of each element in the set of matched elements.
      * 
-     * @param func A callback function which generates a structure to wrap around the content of the matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
+     * @param func A callback function which generates a structure to wrap around the source of the matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.
      */
     wrapInner(func: (index: number) => string): JQuery;
 

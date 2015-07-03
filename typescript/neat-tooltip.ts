@@ -1,8 +1,8 @@
 /// <reference path="typings/tsd.d.ts" />
 
 interface tooltip_options {
-    mode?: Tooltip.Mode;
-    content?: Tooltip.Content;
+    position?: Tooltip.Position;
+    source?: Tooltip.Source;
     cssClass?: string;
     showOn?: Tooltip.ShowOn;
     closeSelector?: string;
@@ -15,8 +15,14 @@ interface JQuery {
 
 module Tooltip {
     export var activeTooltip: Tooltip;
-    export enum Mode { bottom, top }
-    export enum Content { title, href }
+    export enum Position { bottom, top }
+    export enum Source {
+        //Get tooltip content from title attribute
+        title,
+        // Get tooltip content from href attribute. If href starts with #, will searh for element on the page.
+        // Else (not yet supported), will load URL
+        href
+    }
     export enum ShowOn { hover, click }
 
     function close() {
@@ -38,8 +44,8 @@ module Tooltip {
         $.fn.tooltip = function (options) {
 
             options = $.extend({
-                mode: Mode.bottom,
-                content: Content.title,
+                position: Position.bottom,
+                source: Source.title,
                 cssClass: '',
                 showOn: ShowOn.hover,
                 closeSelector: '.tooltip-close',
@@ -51,8 +57,10 @@ module Tooltip {
             });
         };
 
+        //Hide tooltip on click outside target element and popup
         $('html').click(function (ev) {
-            //Hide tooltip on click outside target element and popup
+            if(!activeTooltip)
+                return;
             var $active = activeTooltip.tooltip.add(activeTooltip.target);
             if (activeTooltip && !$contains($active, ev.target))
                 activeTooltip.close();
@@ -90,7 +98,7 @@ module Tooltip {
         private initContent() {
             if (this.content)
                 return;
-            if (this.options.content == Content.title) {
+            if (this.options.source == Source.title) {
                 var title = this.target.attr('title');
                 if (!title)
                     return;
@@ -98,7 +106,7 @@ module Tooltip {
                     .attr('data-title', title)
                     .attr('title', '');
                 this.content = $('<span/>').html(title);
-            } else {
+            } else if(this.options.source == Source.href){
                 this.content = $(this.target.attr('href'));
                 if (!this.content.length)
                     this.content = null;
@@ -128,7 +136,7 @@ module Tooltip {
 
             var t = this.tooltip = $('<div class="tooltip-frame"/>')
                 .addClass(o.cssClass)
-                .addClass('tooltip-' + Mode[o.mode])
+                .addClass('tooltip-' + Position[o.position])
                 .append(this.content.show())
                 .append($('<div class="tip"/>'))
                 .appendTo('body');
@@ -170,7 +178,7 @@ module Tooltip {
 
             //Setting width can make height vary. So we set vertical position after.
             var h = t.outerHeight();
-            t.css('top', o.mode == Mode.top
+            t.css('top', o.position == Position.top
                 ? offset.top - h - o.distance
                 : offset.top + e.outerHeight() + o.distance
             );
