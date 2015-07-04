@@ -24,7 +24,7 @@ interface tooltip_options {
 }
 
 interface JQuery {
-    tooltip(options?: tooltip_options, showOn?:string): JQuery;
+    tooltip(options?: tooltip_options, showOn?:string, selector?:string): JQuery;
     showTooltip(options?: tooltip_options): Tooltip.Tooltip;
     closeTooltip(): JQuery;
 }
