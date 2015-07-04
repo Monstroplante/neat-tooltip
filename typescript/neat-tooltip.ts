@@ -104,7 +104,7 @@ module Tooltip {
         private getContent(): JQuery {
             var c = this.options.content;
             if (c) {
-                c = $.isFunction(c) ? c() : c;
+                c = $.isFunction(c) ? c.call(this.target) : c;
                 return !c ? null : typeof c == 'string' ?  $('<div>').html(c) : $(c);
             }
                 
