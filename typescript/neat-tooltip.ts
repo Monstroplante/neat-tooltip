@@ -217,7 +217,6 @@ module Tooltip {
         }
 
         public close() {
-            console.log('close22');
             if (!this.tooltip)
                 return;
             if(this.options.source == Source.anchor)
