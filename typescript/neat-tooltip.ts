@@ -7,6 +7,9 @@ interface tooltip_options {
     closeSelector?: string;
     distance?: number;
 
+    //If false (default), close any other visible tooltip on display
+    allowMultiple?: boolean;
+
     //Can be an HTML string, an element or a JQuery object
     //Can also be a function returning the same value type (this refer to the target element).
     //If set, source is ignored.
@@ -117,6 +120,7 @@ module Tooltip {
                 cssClass: '',
                 closeSelector: '.tooltip-close',
                 distance: 5,
+                allowMultiple: false,
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('tooltip', this);
@@ -153,6 +157,9 @@ module Tooltip {
             this.content = this.getContent();
             if (!this.content)
                 return;
+
+            if(!this.options.allowMultiple)
+                close();
 
             this.content
                 .off('click', this.closeCallback)
