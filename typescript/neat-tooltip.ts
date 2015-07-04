@@ -6,10 +6,15 @@ interface tooltip_options {
     cssClass?: string;
     closeSelector?: string;
     distance?: number;
+
+    //Can be an HTML string, an element or a JQuery object
+    //Can also be a function returning the same value type (this refer to the target element).
+    //If set, source is ignored.
+    content?: any;
 }
 
 interface JQuery {
-    tooltip(options?: tooltip_options): JQuery;
+    tooltip(options?: tooltip_options, showOn?:Tooltip.ShowOn): JQuery;
     showTooltip(options?: tooltip_options): Tooltip.Tooltip;
     closeTooltip(): JQuery;
 }
@@ -118,12 +123,20 @@ module Tooltip {
             this.show();
         }
 
-        private getContent():JQuery {
+        private getContent(): JQuery {
+            var c = this.options.content;
+            if (c) {
+                c = $.isFunction(c) ? c() : c;
+                return typeof c == 'string' ?  $('<div>').html(c) : $(c);
+            }
+                
+            
             if (this.options.source == Source.title) {
                 var title = this.target.attr('title') || this.target.data('title');
                 this.target.attr('title', '').data('title', title);
-                return $('<span/>').html(title);
-            } else if(this.options.source == Source.anchor){
+                return $('<div>').html(title);
+            }
+            if (this.options.source == Source.anchor) {
                 var content = $(this.target.attr('href'));
                 return content.length ? content : null;
             }

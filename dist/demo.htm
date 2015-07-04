@@ -1,38 +1,40 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>neat-tooltip - Demo</title>
-    <link rel="stylesheet" href="neat-tooltip.css"/>
-    <link rel="stylesheet" href="demo.css"/>
+    <link rel="stylesheet" href="neat-tooltip.css" />
+    <link rel="stylesheet" href="demo.css" />
 </head>
 <body>
 
-<h2>Basic</h2>
-<p><span class="tooltip1" title="Tooltip content">Simple tooltip</span></p>
+    <h2>Basic</h2>
+    <p><span class="tooltip1" title="Tooltip content">Simple tooltip</span></p>
 
-<h2>Custom styles</h2>
-<p><span class="tooltip2" title="Tooltip content">Dark tooltip</span></p>
+    <h2>Custom styles</h2>
+    <p><span class="tooltip2" title="Tooltip content">Dark tooltip</span></p>
 
-<p><span class="tooltip3" title="Tooltip content">Pill tooltip</span></p>
+    <p><span class="tooltip3" title="Tooltip content">Pill tooltip</span></p>
 
-<h2>More</h2>
-<p>
-    <a class="tooltip4" title="Tooltip content" href="#tooltip4-content">Show on click. Content is #tooltip4-content element</a>
+    <h2>More</h2>
+    <p>
+        <a class="tooltip4" title="Tooltip content" href="#tooltip4-content">Show on click. Content is #tooltip4-content element</a>
 
-    <div style="display: none" id="tooltip4-content">
-        <h3>Tooltip content</h3>
+        <div style="display: none" id="tooltip4-content">
+            <h3>Tooltip content</h3>
+    <p>Support full <b>Html</b></p>
 
-        <p>Support full <b>Html</b></p>
+    <p><a class="tooltip-close" href="#">close</a></p>
 
-        <p><a class="tooltip-close" href="#">close</a></p>
     </div>
-</p>
+    </p>
+
+    <p><span class="tooltip5">Content is returned by a function</span></p>
 
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="neat-tooltip.js"></script>
-<script src="demo.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="neat-tooltip.js"></script>
+    <script src="demo.js"></script>
 </body>
 </html>
