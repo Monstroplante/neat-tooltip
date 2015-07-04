@@ -31,7 +31,6 @@ interface JQuery {
 
 module Tooltip {
     export var activeTooltips: Tooltip[] = [];
-    export enum ShowOn { hover, click }
 
     function close() {
         for(var i=0; i<activeTooltips.length; i++)
@@ -146,13 +145,6 @@ module Tooltip {
                 var content = $(this.target.attr('href'));
                 return content.length ? content : null;
             }
-        }
-
-        public toggle() {
-            if (this.tooltip)
-                this.close();
-            else
-                this.show();
         }
 
         public show() {
