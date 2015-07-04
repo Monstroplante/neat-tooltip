@@ -15,6 +15,7 @@ Look at [demo.html](http://htmlpreview.github.io/?https://github.com/Monstroplan
 - Tooltip content can be any html content
 - Support event delegation
 - Display on hover or click
+- Display after a short delay to avoid blink on fast mouse move over the page
 
 ## Installation
 
