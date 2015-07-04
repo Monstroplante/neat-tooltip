@@ -14,14 +14,14 @@ I never found a JQuery tooltip plugin that satisfies me. So I ended up making my
 
 ## Installation
 
-You can install by using [Bower](http://bower.io/).
+You can install with [Bower](http://bower.io/):
 
 ```bash
 bower install neat-tooltip
 ```
 
 ## Documentation
-Look ad [demo.html](dist/demo.htm), [demo.js](dist/demo.htm) and [demo.scss](sass/demo.scss). This is the best documentation at the moment.
+Look at [demo.js](dist/demo.js), [demo.html](dist/demo.htm) and [demo.scss](sass/demo.scss). This is the best documentation at the moment.
 
 
 
