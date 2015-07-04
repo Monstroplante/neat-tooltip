@@ -4,35 +4,35 @@ interface tooltip_options {
     position?: Tooltip.Position;
     source?: Tooltip.Source;
     cssClass?: string;
-    showOn?: Tooltip.ShowOn;
     closeSelector?: string;
     distance?: number;
 }
 
 interface JQuery {
     tooltip(options?: tooltip_options): JQuery;
+    showTooltip(options?: tooltip_options): Tooltip.Tooltip;
+    closeTooltip(): JQuery;
 }
 
 module Tooltip {
-    export var activeTooltip: Tooltip;
+    export var activeTooltips: Tooltip[] = [];
     export enum Position { bottom, top }
     export enum Source {
         //Get tooltip content from title attribute
         title,
-        // Get tooltip content from href attribute. If href starts with #, will searh for element on the page.
+        // Get tooltip content from anchor attribute. If anchor starts with #, will searh for element on the page.
         // Else (not yet supported), will load URL
-        href
+        anchor
     }
     export enum ShowOn { hover, click }
 
     function close() {
-        if (activeTooltip)
-            activeTooltip.close();
+        for(var i=0; i<activeTooltips.length; i++)
+            activeTooltips[i].close();
     }
 
     //Indicates if a jquery set contains a given DOM node
-    function $contains($set: JQuery, elem: HTMLElement, includeSelf = true) {
-        var e: JQuery = this;
+    function $contains(e: JQuery, elem: HTMLElement, includeSelf = true) {
         for (var i = 0; i < e.length; i++) {
             if ((includeSelf && e.get(i) == elem) || $.contains(e.get(i), elem))
                 return true;
@@ -41,79 +41,92 @@ module Tooltip {
     };
 
     (function ($) {
-        $.fn.tooltip = function (options) {
 
-            options = $.extend({
-                position: Position.bottom,
-                source: Source.title,
-                cssClass: '',
-                showOn: ShowOn.hover,
-                closeSelector: '.tooltip-close',
-                distance: 5,
-            }, options);
-
-            return this.each(function () {
-                var t = new Tooltip(this, options);
+        //Display a tooltip once
+        $.fn.showTooltip = function (options) {
+            return this.each(function(){
+                new Tooltip(this, options);
             });
+        };
+
+        //Display a tooltip once
+        $.fn.closeTooltip = function (options) {
+            return this.each(function(){
+                var t = <Tooltip>$(this).data('tooltip');
+                if(t)
+                    t.close();
+            });
+        };
+
+        //Bind tooltip display to event
+        $.fn.tooltip = function (options, showOn = ShowOn.hover) {
+            if (showOn == ShowOn.hover) {
+                var show = function () { $(this).showTooltip(options) };
+                this.hover(
+                    show,
+                    function(){$(this).closeTooltip()}
+                ).click(show);
+            } else if (showOn == ShowOn.click){
+                this.click(function () {
+                    var e = $(this);
+                    console.log(e.data('tooltip'));
+                    if(e.data('tooltip'))
+                        e.closeTooltip();
+                    else
+                        e.showTooltip(options);
+                    return false;
+                });
+            }
+
+            return this;
         };
 
         //Hide tooltip on click outside target element and popup
         $('html').click(function (ev) {
-            if(!activeTooltip)
-                return;
-            var $active = activeTooltip.tooltip.add(activeTooltip.target);
-            if (activeTooltip && !$contains($active, ev.target))
-                activeTooltip.close();
+            for(var i=0; i<activeTooltips.length; i++){
+                var t:Tooltip = activeTooltips[i];
+                var $active = t.tooltip.add(t.target);
+                if (t && !$contains($active, ev.target))
+                    t.close();
+            }
+
         });
 
         $(window).resize(() => {
-            if (activeTooltip)
-                activeTooltip.position();
+            for(var i=0; i<activeTooltips.length; i++){
+                activeTooltips[i].position();
+            }
         });
     })(jQuery);
 
     export class Tooltip {
-        private content: JQuery;
         public tooltip: JQuery;
         public target: JQuery;
+        public content: JQuery;
+        private closeCallback = () => { this.close(); return false; };
 
         constructor(private targetElem: HTMLElement, private options: tooltip_options) {
-            targetElem['tooltip'] = this;
-            this.target = $(targetElem).addClass('has-tooltip');
-            var that = this;
+            this.options = $.extend({
+                position: Position.bottom,
+                source: Source.title,
+                cssClass: '',
+                closeSelector: '.tooltip-close',
+                distance: 5,
+            }, options);
 
-            if (options.showOn == ShowOn.hover) {
-                //Reaffect target to fix bug on cloned elements.
-                var show = function () { that.target = $(this); that.show(); }
-
-                this.target.hover(
-                    show,
-                    () => this.close()
-                    ).click(show);
-            } else {
-                this.target.click(function () { that.target = $(this); that.toggle(); return false;});
-            }
+            this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('tooltip', this);
+            this.show();
         }
 
-        private initContent() {
-            if (this.content)
-                return;
+        private getContent():JQuery {
             if (this.options.source == Source.title) {
-                var title = this.target.attr('title');
-                if (!title)
-                    return;
-                this.target
-                    .attr('data-title', title)
-                    .attr('title', '');
-                this.content = $('<span/>').html(title);
-            } else if(this.options.source == Source.href){
-                this.content = $(this.target.attr('href'));
-                if (!this.content.length)
-                    this.content = null;
+                var title = this.target.attr('title') || this.target.data('title');
+                this.target.attr('title', '').data('title', title);
+                return $('<span/>').html(title);
+            } else if(this.options.source == Source.anchor){
+                var content = $(this.target.attr('href'));
+                return content.length ? content : null;
             }
-
-            if (this.content)
-                this.content.find(this.options.closeSelector).click(() => { this.close(); return false; });
         }
 
         public toggle() {
@@ -124,24 +137,24 @@ module Tooltip {
         }
 
         public show() {
-            this.initContent();
+            this.content = this.getContent();
             if (!this.content)
                 return;
 
-            if (activeTooltip)
-                activeTooltip.close();
+            this.content
+                .off('click', this.closeCallback)
+                .on('click', this.options.closeSelector, this.closeCallback);
 
-            var e = this.target;
             var o = this.options;
 
-            var t = this.tooltip = $('<div class="tooltip-frame"/>')
+            this.tooltip = $('<div class="tooltip-frame"/>')
                 .addClass(o.cssClass)
                 .addClass('tooltip-' + Position[o.position])
                 .append(this.content.show())
                 .append($('<div class="tip"/>'))
                 .appendTo('body');
 
-            activeTooltip = this;
+            activeTooltips.push(this);
             this.position();
         }
 
@@ -185,12 +198,15 @@ module Tooltip {
         }
 
         public close() {
+            console.log('close22');
             if (!this.tooltip)
                 return;
-            this.content.hide().appendTo('body');
+            if(this.options.source == Source.anchor)
+                this.content.hide().appendTo('body');
             this.tooltip.remove();
             this.tooltip = null;
-            activeTooltip = null;
+            this.target.data('tooltip', null);
+            activeTooltips.splice(activeTooltips.indexOf(this), 1);
         }
     }
 }
