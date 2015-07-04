@@ -14,3 +14,9 @@ $('#demo_delegation button').click(function(){
         .attr('title', 'Tooltip content')
         .appendTo('#demo_delegation');
 });
+
+$('.demo6 button').click(function () {
+    $('#demo6-target').showTooltip({content:'Display for 1s'});
+    setTimeout(() => $('#demo6-target').closeTooltip(), 1000);
+    return false;
+});
