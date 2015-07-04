@@ -19,6 +19,9 @@ interface tooltip_options {
     content?: any;
 
     closeOnClickOuside?: boolean;
+
+    //Delay before display for smoother display
+    delay?:number;
 }
 
 interface JQuery {

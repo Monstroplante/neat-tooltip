@@ -85,6 +85,7 @@ module Tooltip {
         public target: JQuery;
         public content: JQuery;
         private closeCallback = () => { this.close(); return false; };
+        private showTimeout;
 
         constructor(private targetElem: HTMLElement, public options: tooltip_options) {
             this.options = $.extend({
@@ -95,10 +96,11 @@ module Tooltip {
                 distance: 5,
                 allowMultiple: false,
                 closeOnClickOuside: true,
+                delay: 200,
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
-            this.show();
+            this.showTimeout = setTimeout(() => this.show(), this.options.delay);
         }
 
         private getContent(): JQuery {
@@ -120,7 +122,7 @@ module Tooltip {
             }
         }
 
-        public show() {
+        private show() {
             this.content = this.getContent();
             if (!this.content)
                 return;
@@ -185,6 +187,7 @@ module Tooltip {
         }
 
         public close() {
+            clearTimeout(this.showTimeout);
             if (!this.tooltip)
                 return;
             if(this.options.source == 'anchor')
