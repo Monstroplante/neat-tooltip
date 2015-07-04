@@ -60,7 +60,7 @@ module Tooltip {
         //Display a tooltip once
         $.fn.closeTooltip = function (options) {
             return this.each(function(){
-                var t = <Tooltip>$(this).data('tooltip');
+                var t = <Tooltip>$(this).data('_tooltip');
                 if(t)
                     t.close();
             });
@@ -77,8 +77,7 @@ module Tooltip {
             } else if (showOn == ShowOn.click){
                 this.click(function () {
                     var e = $(this);
-                    console.log(e.data('tooltip'));
-                    if(e.data('tooltip'))
+                    if(e.data('_tooltip'))
                         e.closeTooltip();
                     else
                         e.showTooltip(options);
@@ -123,7 +122,7 @@ module Tooltip {
                 allowMultiple: false,
             }, options);
 
-            this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('tooltip', this);
+            this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
             this.show();
         }
 
@@ -225,7 +224,7 @@ module Tooltip {
                 this.content.hide().appendTo('body');
             this.tooltip.remove();
             this.tooltip = null;
-            this.target.data('tooltip', null);
+            this.target.data('_tooltip', null);
             activeTooltips.splice(activeTooltips.indexOf(this), 1);
         }
     }
