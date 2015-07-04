@@ -1,6 +1,10 @@
 # neat-tooltip
 I never found a JQuery tooltip plugin that satisfies me. So I ended up making my own using Typescript and SASS.
 
+##Demo
+
+Look at [demo.html](http://htmlpreview.github.io/?https://github.com/Monstroplante/neat-tooltip/blob/master/dist/demo.htm)
+
 ##Features:
 - Light: about 3kB minified
 - Very versatile
