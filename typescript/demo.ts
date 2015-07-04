@@ -20,3 +20,5 @@ $('.demo6 button').click(function () {
     setTimeout(() => $('#demo6-target').closeTooltip(), 1000);
     return false;
 });
+
+$('.demo7 a').tooltip({ source: 'anchor', cssClass: 'tooltip-large', container: '.demo7'}, 'click');

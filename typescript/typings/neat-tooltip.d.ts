@@ -22,6 +22,9 @@ interface tooltip_options {
 
     //Delay before display for smoother display
     delay?:number;
+
+    //Selector or element or JQuery. Tooltip with try to keep inside this element
+    container?:any;
 }
 
 interface JQuery {

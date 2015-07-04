@@ -97,6 +97,7 @@ module Tooltip {
                 allowMultiple: false,
                 closeOnClickOuside: true,
                 delay: 200,
+                container: window,
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
@@ -162,19 +163,23 @@ module Tooltip {
 
             var offset = e.offset();
 
-            var ww = $(window).width();
+            var container = this.options.container;
+
+            var cw = $(container).width();
+            var cl = container ===  window ? 0 : $(container).offset().left;
+            var cr = cl + cw;
             var w = t.outerWidth();
             var left = offset.left + e.outerWidth() / 2 - w / 2;
 
-            if (left < margin)
-                left = margin;
-            var rightOverflow = (left + w) - (ww - margin);
+            if (left - margin < cl)
+                left = cl + margin;
+            var rightOverflow = (left + w) - (cr - margin);
             if(rightOverflow > 0)
-                left = Math.max(left - rightOverflow, margin);
+                left = Math.max(left - rightOverflow, cl + margin);
 
             t.css({
                 'left': left + 'px',
-                'max-width': (ww - left - margin) + 'px'
+                'max-width': (cr - left - margin) + 'px'
             }).find('.tip')
                 .css('left', offset.left + e.outerWidth() / 2 - left + 'px');
 
