@@ -1,8 +1,13 @@
 /// <reference path="typings/tsd.d.ts" />
 
 interface tooltip_options {
-    position?: Tooltip.Position;
-    source?: Tooltip.Source;
+
+    // 'top' or 'bottom' (default)
+    position?: string;
+    // 'title': Get tooltip content from title attribute
+    // 'anchor': Use it on <a href="#id"></a>. The href attribute will be used as a selector. The matched elements will be appended to the tooltip and made visible.
+    anchor?: string;
+    source?: string;
     cssClass?: string;
     closeSelector?: string;
     distance?: number;
@@ -14,24 +19,18 @@ interface tooltip_options {
     //Can also be a function returning the same value type (this refer to the target element).
     //If set, source is ignored.
     content?: any;
+
+    closeOnClickOuside?: boolean;
 }
 
 interface JQuery {
-    tooltip(options?: tooltip_options, showOn?:Tooltip.ShowOn): JQuery;
+    tooltip(options?: tooltip_options, showOn?:string): JQuery;
     showTooltip(options?: tooltip_options): Tooltip.Tooltip;
     closeTooltip(): JQuery;
 }
 
 module Tooltip {
     export var activeTooltips: Tooltip[] = [];
-    export enum Position { bottom, top }
-    export enum Source {
-        //Get tooltip content from title attribute
-        title,
-        // Get tooltip content from anchor attribute. If anchor starts with #, will searh for element on the page.
-        // Else (not yet supported), will load URL
-        anchor
-    }
     export enum ShowOn { hover, click }
 
     function close() {
@@ -67,14 +66,14 @@ module Tooltip {
         };
 
         //Bind tooltip display to event
-        $.fn.tooltip = function (options, showOn = ShowOn.hover) {
-            if (showOn == ShowOn.hover) {
+        $.fn.tooltip = function (options, showOn = 'hover') {
+            if (showOn == 'hover') {
                 var show = function () { $(this).showTooltip(options) };
                 this.hover(
                     show,
                     function(){$(this).closeTooltip()}
                 ).click(show);
-            } else if (showOn == ShowOn.click){
+            } else if (showOn == 'click'){
                 this.click(function () {
                     var e = $(this);
                     if(e.data('_tooltip'))
@@ -83,6 +82,8 @@ module Tooltip {
                         e.showTooltip(options);
                     return false;
                 });
+            }else{
+                throw 'This value is not supported for argument showOn: ' + showOn;
             }
 
             return this;
@@ -93,7 +94,7 @@ module Tooltip {
             for(var i=0; i<activeTooltips.length; i++){
                 var t:Tooltip = activeTooltips[i];
                 var $active = t.tooltip.add(t.target);
-                if (t && !$contains($active, ev.target))
+                if (t && t.options.closeOnClickOuside && !$contains($active, ev.target))
                     t.close();
             }
 
@@ -112,14 +113,15 @@ module Tooltip {
         public content: JQuery;
         private closeCallback = () => { this.close(); return false; };
 
-        constructor(private targetElem: HTMLElement, private options: tooltip_options) {
+        constructor(private targetElem: HTMLElement, public options: tooltip_options) {
             this.options = $.extend({
-                position: Position.bottom,
-                source: Source.title,
+                position: 'bottom',
+                source: 'title',
                 cssClass: '',
                 closeSelector: '.tooltip-close',
                 distance: 5,
                 allowMultiple: false,
+                closeOnClickOuside: true,
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
@@ -134,12 +136,12 @@ module Tooltip {
             }
                 
             
-            if (this.options.source == Source.title) {
+            if (this.options.source == 'title') {
                 var title = this.target.attr('title') || this.target.data('title');
                 this.target.attr('title', '').data('title', title);
                 return $('<div>').html(title);
             }
-            if (this.options.source == Source.anchor) {
+            if (this.options.source == 'anchor') {
                 var content = $(this.target.attr('href'));
                 return content.length ? content : null;
             }
@@ -168,7 +170,7 @@ module Tooltip {
 
             this.tooltip = $('<div class="tooltip-frame"/>')
                 .addClass(o.cssClass)
-                .addClass('tooltip-' + Position[o.position])
+                .addClass('tooltip-' + o.position)
                 .append(this.content.show())
                 .append($('<div class="tip"/>'))
                 .appendTo('body');
@@ -210,7 +212,7 @@ module Tooltip {
 
             //Setting width can make height vary. So we set vertical position after.
             var h = t.outerHeight();
-            t.css('top', o.position == Position.top
+            t.css('top', o.position == 'top'
                 ? offset.top - h - o.distance
                 : offset.top + e.outerHeight() + o.distance
             );
@@ -219,7 +221,7 @@ module Tooltip {
         public close() {
             if (!this.tooltip)
                 return;
-            if(this.options.source == Source.anchor)
+            if(this.options.source == 'anchor')
                 this.content.hide().appendTo('body');
             this.tooltip.remove();
             this.tooltip = null;
