@@ -1,5 +1,9 @@
 @import "common";
 
+.tooltip-large{
+  max-width: 800px;
+}
+
 .tooltip-dark{
   @include neat-tooltip(#555, 8px, 300px);
   color: #fff;

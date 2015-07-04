@@ -3,6 +3,7 @@
   z-index: 100;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   padding: 10px 20px;
+  box-sizing: border-box;
   background: #FFF;
   max-width: 300px;
 }

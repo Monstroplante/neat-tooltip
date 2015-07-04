@@ -1,3 +1,7 @@
+.tooltip-large {
+  max-width: 800px;
+}
+
 .tooltip-dark, .tooltip-pill {
   background: #555;
   max-width: 300px;
