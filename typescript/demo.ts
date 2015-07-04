@@ -6,3 +6,11 @@ $('.tooltip2').tooltip({ cssClass:'tooltip-dark'});
 $('.tooltip3').tooltip({ cssClass: 'tooltip-pill' });
 $('.tooltip4').tooltip({ source: 'anchor' }, 'click');
 $('.tooltip5').tooltip({ content: function () { return 'time = ' + new Date().getTime(); } });
+
+$('#demo_delegation').tooltip({}, 'hover', 'span')
+$('#demo_delegation button').click(function(){
+   $('<span>')
+        .text('New span ')
+        .attr('title', 'Tooltip content')
+        .appendTo('#demo_delegation');
+});

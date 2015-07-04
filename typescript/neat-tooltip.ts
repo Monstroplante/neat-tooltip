@@ -66,15 +66,16 @@ module Tooltip {
         };
 
         //Bind tooltip display to event
-        $.fn.tooltip = function (options, showOn = 'hover') {
+        $.fn.tooltip = function (options, showOn = 'hover', selector?:string) {
             if (showOn == 'hover') {
                 var show = function () { $(this).showTooltip(options) };
-                this.hover(
-                    show,
-                    function(){$(this).closeTooltip()}
-                ).click(show);
+                this
+                    .on('mouseenter', selector, show)
+                    .on('mouseleave', selector, function(){$(this).closeTooltip()})
+                    .on('click', selector, show);
+
             } else if (showOn == 'click'){
-                this.click(function () {
+                this.on('click', selector, function () {
                     var e = $(this);
                     if(e.data('_tooltip'))
                         e.closeTooltip();
