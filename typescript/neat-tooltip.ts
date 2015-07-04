@@ -98,6 +98,7 @@ module Tooltip {
                 closeOnClickOuside: true,
                 delay: 200,
                 container: window,
+                margin: 10,
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
@@ -149,7 +150,7 @@ module Tooltip {
         }
 
         public position() {
-            var margin = 10;
+            var margin = this.options.margin;
 
             var t = this.tooltip;
             var e = this.target;
@@ -160,35 +161,27 @@ module Tooltip {
 
             //Reset so dimentions calculations are correct
             t.removeAttr('style');
-
             var offset = e.offset();
-
             var container = this.options.container;
+            var containerLeft = container === window ? 0 : $(container).offset().left
+            var minLeft = containerLeft + margin;
+            var maxRight = (containerLeft + $(container).outerWidth()) - margin;
 
-            var cw = $(container).width();
-            var cl = container ===  window ? 0 : $(container).offset().left;
-            var cr = cl + cw;
             var w = t.outerWidth();
-            var left = offset.left + e.outerWidth() / 2 - w / 2;
 
-            if (left - margin < cl)
-                left = cl + margin;
-            var rightOverflow = (left + w) - (cr - margin);
+            var left = Math.max(minLeft, offset.left + e.outerWidth() / 2 - w / 2);
+
+            var rightOverflow = (left + w) - maxRight;
             if(rightOverflow > 0)
-                left = Math.max(left - rightOverflow, cl + margin);
+                left = Math.max(minLeft, left - rightOverflow)
 
             t.css({
                 'left': left + 'px',
-                'max-width': (cr - left - margin) + 'px'
-            }).find('.tip')
-                .css('left', offset.left + e.outerWidth() / 2 - left + 'px');
-
+                'max-width': (maxRight - left) + 'px'
+            }).find('.tip').css('left', offset.left + e.outerWidth() / 2 - left + 'px');
             //Setting width can make height vary. So we set vertical position after.
             var h = t.outerHeight();
-            t.css('top', o.position == 'top'
-                ? offset.top - h - o.distance
-                : offset.top + e.outerHeight() + o.distance
-            );
+            t.css('top', o.position == 'top' ? offset.top - h - o.distance : offset.top + e.outerHeight() + o.distance);
         }
 
         public close() {
