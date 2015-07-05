@@ -104,7 +104,11 @@ module Tooltip {
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').data('_tooltip', this);
-            this.showTimeout = setTimeout(() => this.show(), this.options.delay);
+            if(this.options.delay){
+                this.showTimeout = setTimeout(() => this.show(), this.options.delay);
+            }else{
+                this.show();
+            }
         }
 
         private getContent(): JQuery {
