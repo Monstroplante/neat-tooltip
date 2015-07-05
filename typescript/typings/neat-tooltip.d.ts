@@ -26,6 +26,8 @@ interface tooltip_options {
     //Selector or element or JQuery. Tooltip with try to keep inside this element
     container?:any;
 
+    appendTo?:any;
+
     //Tooltip minimum distance from window or container limits
     margin?:number;
 }
