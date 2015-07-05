@@ -10,9 +10,6 @@ interface tooltip_options {
     closeSelector?: string;
     distance?: number;
 
-    //If false (default), close any other visible tooltip on display
-    allowMultiple?: boolean;
-
     //Can be an HTML string, an element or a JQuery object
     //Can also be a function returning the same value type (this refer to the target element).
     //If set, source is ignored.
@@ -36,4 +33,8 @@ interface JQuery {
     tooltip(options?: tooltip_options, showOn?:string, selector?:string): JQuery;
     showTooltip(options?: tooltip_options): JQuery;
     closeTooltip(): JQuery;
+}
+
+interface JQueryStatic{
+    tooltip(action:string);
 }

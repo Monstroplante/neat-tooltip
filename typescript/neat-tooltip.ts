@@ -3,12 +3,21 @@
 
 
 module Tooltip {
-    export var activeTooltips: Tooltip[] = [];
+    var active: Tooltip;
 
-    function close() {
-        for(var i=0; i<activeTooltips.length; i++)
-            activeTooltips[i].close();
-    }
+    var close = function(){
+        if(active)
+            active.close();
+    };
+
+    $.tooltip = function(action: string){
+        switch(action){
+            case 'close' : close(); break;
+            case 'get': return active;
+            case 'position': if(active) active.position(); break;
+            default: throw 'Not supported action ' + action;
+        }
+    };
 
     //Indicates if a jquery set contains a given DOM node
     function $contains(e: JQuery, elem: HTMLElement, includeSelf = true) {
@@ -23,9 +32,8 @@ module Tooltip {
 
         //Display a tooltip once
         $.fn.showTooltip = function (options) {
-            return this.each(function(){
-                new Tooltip(this, options);
-            });
+            if(this.length)
+                new Tooltip(this.eq(0), options);
         };
 
         //Display a tooltip once
@@ -43,14 +51,14 @@ module Tooltip {
                 var show = function () { $(this).showTooltip(options) };
                 this
                     .on('mouseenter', selector, show)
-                    .on('mouseleave', selector, function(){$(this).closeTooltip()})
+                    .on('mouseleave', selector, function(){$(this).closeTooltip();})
                     .on('click', selector, show);
 
             } else if (showOn == 'click'){
                 this.on('click', selector, function () {
                     var e = $(this);
                     if(e.data('_tooltip'))
-                        e.closeTooltip();
+                        close();
                     else
                         e.showTooltip(options);
                     return false;
@@ -64,19 +72,13 @@ module Tooltip {
 
         //Hide tooltip on click outside target element and popup
         $('html').click(function (ev) {
-            for(var i=0; i<activeTooltips.length; i++){
-                var t:Tooltip = activeTooltips[i];
-                var $active = t.tooltip.add(t.target);
-                if (t && t.options.closeOnClickOuside && !$contains($active, ev.target))
-                    t.close();
-            }
-
+            var t = active;
+            if (t && t.options.closeOnClickOuside && !$contains(t.tooltip.add(t.target), ev.target))
+                t.close();
         });
 
         $(window).resize(() => {
-            for(var i=0; i<activeTooltips.length; i++){
-                activeTooltips[i].position();
-            }
+            $.tooltip('position');
         });
     })(jQuery);
 
@@ -94,7 +96,6 @@ module Tooltip {
                 cssClass: '',
                 closeSelector: '.tooltip-close',
                 distance: 5,
-                allowMultiple: false,
                 closeOnClickOuside: true,
                 delay: 200,
                 container: window,
@@ -102,7 +103,7 @@ module Tooltip {
                 appendTo: 'body',
             }, options);
 
-            this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
+            this.target = $(targetElem).addClass('has-tooltip').data('_tooltip', this);
             this.showTimeout = setTimeout(() => this.show(), this.options.delay);
         }
 
@@ -130,8 +131,7 @@ module Tooltip {
             if (!this.content)
                 return;
 
-            if(!this.options.allowMultiple)
-                close();
+            close();
 
             this.content
                 .off('click', this.closeCallback)
@@ -151,8 +151,8 @@ module Tooltip {
             if(appendTo.css('position') == 'static')
                 appendTo.css('position', 'relative');
 
-            activeTooltips.push(this);
             this.position();
+            active = this;
         }
 
         public position() {
@@ -200,7 +200,7 @@ module Tooltip {
             this.tooltip.remove();
             this.tooltip = null;
             this.target.data('_tooltip', null);
-            activeTooltips.splice(activeTooltips.indexOf(this), 1);
+            active = null;
         }
     }
 }
