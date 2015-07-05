@@ -99,7 +99,6 @@ module Tooltip {
                 delay: 200,
                 container: window,
                 margin: 10,
-                appendTo: 'body',
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
@@ -139,17 +138,11 @@ module Tooltip {
 
             var o = this.options;
 
-            var appendTo = $(this.options.appendTo).first();
-
             this.tooltip = $('<div class="tooltip-frame"/>')
                 .addClass(o.cssClass)
                 .addClass('tooltip-' + o.position)
                 .append(this.content.show())
-                .append($('<div class="tip"/>'))
-                .appendTo(appendTo);
-
-            if(appendTo.css('position') == 'static')
-                appendTo.css('position', 'relative');
+                .append($('<div class="tip"/>'));
 
             activeTooltips.push(this);
             this.position();
@@ -166,7 +159,8 @@ module Tooltip {
                 return;
 
             //Reset so dimentions calculations are correct
-            t.removeAttr('style');
+            t.removeAttr('style').appendTo('body');
+
             var offset = e.offset();
             var container = this.options.container;
             var containerLeft = container === window ? 0 : $(container).offset().left
@@ -181,14 +175,19 @@ module Tooltip {
             if(rightOverflow > 0)
                 left = Math.max(minLeft, left - rightOverflow)
 
-            var parentOffset = t.parent().offset();
+            if(e.css('position') == 'static')
+                e.css('position', 'relative');
+
             t.css({
-                'left': (left - parentOffset.left) + 'px',
-                'max-width': (maxRight - left) + 'px'
+                'left': (left - offset.left) + 'px',
+                'width': Math.min(w+1,maxRight - left) + 'px'
             }).find('.tip').css('left', offset.left + e.outerWidth() / 2 - left + 'px');
             //Setting width can make height vary. So we set vertical position after.
             var h = t.outerHeight();
-            t.css('top', (o.position == 'top' ? offset.top - h - o.distance : offset.top + e.outerHeight() + o.distance) - parentOffset.top);
+            t.css('top', (o.position == 'top' ? offset.top - h - o.distance : offset.top + e.outerHeight() + o.distance) - offset.top)
+                .appendTo(e);
+
+
         }
 
         public close() {

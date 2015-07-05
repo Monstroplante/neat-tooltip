@@ -23,4 +23,4 @@ $('.demo6 button').click(function () {
 
 $('.demo7 a').tooltip({ source: 'anchor', cssClass: 'tooltip-large', container: '.demo7'}, 'click');
 
-$('.demo8 a').tooltip({appendTo: '.demo8 p'}, 'click');
+$('.demo8 a').tooltip({}, 'click');
