@@ -58,7 +58,7 @@ module Tooltip {
                 this.on('click', selector, function () {
                     var e = $(this);
                     if(e.data('_tooltip'))
-                        close();
+                        e.closeTooltip();
                     else
                         e.showTooltip(options);
                     return false;
@@ -151,6 +151,7 @@ module Tooltip {
             if(appendTo.css('position') == 'static')
                 appendTo.css('position', 'relative');
 
+            this.target.data('_tooltip', this);
             this.position();
             active = this;
         }
