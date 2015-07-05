@@ -99,6 +99,7 @@ module Tooltip {
                 delay: 200,
                 container: window,
                 margin: 10,
+                appendTo: 'body',
             }, options);
 
             this.target = $(targetElem).addClass('has-tooltip').closeTooltip().data('_tooltip', this);
@@ -138,12 +139,17 @@ module Tooltip {
 
             var o = this.options;
 
+            var appendTo = $(this.options.appendTo).first();
+
             this.tooltip = $('<div class="tooltip-frame"/>')
                 .addClass(o.cssClass)
                 .addClass('tooltip-' + o.position)
                 .append(this.content.show())
                 .append($('<div class="tip"/>'))
-                .appendTo('body');
+                .appendTo(appendTo);
+
+            if(appendTo.css('position') == 'static')
+                appendTo.css('position', 'relative');
 
             activeTooltips.push(this);
             this.position();
@@ -175,13 +181,14 @@ module Tooltip {
             if(rightOverflow > 0)
                 left = Math.max(minLeft, left - rightOverflow)
 
+            var parentOffset = t.parent().offset();
             t.css({
-                'left': left + 'px',
+                'left': (left - parentOffset.left) + 'px',
                 'max-width': (maxRight - left) + 'px'
             }).find('.tip').css('left', offset.left + e.outerWidth() / 2 - left + 'px');
             //Setting width can make height vary. So we set vertical position after.
             var h = t.outerHeight();
-            t.css('top', o.position == 'top' ? offset.top - h - o.distance : offset.top + e.outerHeight() + o.distance);
+            t.css('top', (o.position == 'top' ? offset.top - h - o.distance : offset.top + e.outerHeight() + o.distance) - parentOffset.top);
         }
 
         public close() {
